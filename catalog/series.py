@@ -280,6 +280,29 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
                           "прочит идва с BOJ BoP (фаза 5).",
     },
 
+    # (фаза 5) Текущата сметка от BOJ BoP — FRED тримесечната CA е заложник
+    # на годишния OECD ревизионен цикъл (stale 2024Q4, скаутът 05.08).
+    "JP_CA": {
+        "source": "boj",
+        "id": "bp:BPBP6JYNCB",
+        "region": "JP",
+        "name_bg": "Текуща сметка (нето, месечно)",
+        "name_en": "Current Account Net Balance (monthly)",
+        "lens": ["external"],
+        "peer_group": "external_balance",
+        "tags": [],
+        "transform": "level",
+        "is_rate": False,
+        "historical_start": "1996-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "next_month",
+        "revision_prone": True,
+        "narrative_hint": "Търговията отслабна, но доходът от чуждите активи "
+                          "(първичният доход) държи сметката в излишък — "
+                          "Япония е рентиер, не вече само износител. "
+                          "100 млн йени.",
+    },
+
     # ─── ИМОТИ ───────────────────────────────────────────────────────────────
 
     "JP_RPPI": {
@@ -348,6 +371,28 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
     },
 
     # ─── ИНФЛАЦИОНЕН КОНТЕКСТ ────────────────────────────────────────────────
+
+    "JP_CGPI": {
+        "source": "boj",
+        "id": "cgpi:PRCG20_2200000000",
+        "region": "JP",
+        "name_bg": "Производствени цени (PPI/CGPI, г/г)",
+        "name_en": "Producer Price Index (CGPI, YoY)",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": [],
+        "transform": "yoy_pct",
+        "is_rate": False,
+        "historical_start": "2020-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "mid_month",
+        "revision_prone": True,
+        "narrative_hint": "Тръбата ПРЕДИ потребителските цени — вносните "
+                          "разходи (йена + суровини) удрят първо тук. "
+                          "Flat файлът носи само 2020-базата (2020→) — "
+                          "контекст, не глас в лещата.",
+    },
 
     "JP_CPI_CORECORE": {
         "source": "estat",
