@@ -1,0 +1,95 @@
+name: Седмично обновяване на данните
+
+on:
+  schedule:
+    # Всеки понеделник в 06:00 UTC (09:00 Sofia) — изравнено с фамилията
+    # на макро дашбордите (us / eu / china / bg).
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: "Форсирай обновяване на всички данни"
+        required: false
+        default: "false"
+        type: boolean
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    name: Обновяване на макро данните и дашборда
+
+    # JP разлика от BG: два ключа (FRED + e-Stat) — repo secrets, не в кода.
+    env:
+      FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+      ESTAT_APP_ID: ${{ secrets.ESTAT_APP_ID }}
+
+    steps:
+      - name: Checkout репозиторий
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Настройка на Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Инсталиране на зависимости
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Тестове (гейт преди генерирането)
+        run: pytest -q
+
+      # Планираният пуск ВИНАГИ форсира обновяване (фамилният корен-фикс №42):
+      # тримесечните серии имат TTL 30 дни, а cron-ът е седмичен — без force
+      # ново тримесечие чака до ~30 дни при fetch от секунди.
+      - name: Обновяване на данните и генериране на дашборд
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.force_refresh }}" = "true" ]; then
+            python run.py --briefing --refresh
+          else
+            python run.py --briefing
+          fi
+
+      - name: Context export за LLM анализ
+        run: python run.py --export-context
+
+      - name: Проверка на статуса
+        run: python run.py --status
+
+      - name: Commit и push на промените
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git diff --staged --quiet || git commit -m "🔄 Автоматично обновяване $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Настройка на GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Качване на Pages артефакт
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+  deploy:
+    needs: update-dashboard
+    runs-on: ubuntu-latest
+    name: Публикуване на дашборда в GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy към GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
