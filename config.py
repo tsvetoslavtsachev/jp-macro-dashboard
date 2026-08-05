@@ -17,22 +17,25 @@ DATA_DIR = BASE_DIR / "data"
 OUTPUT_DIR = BASE_DIR / "output"
 
 # ─── API ключове ─────────────────────────────────────────────────────────────
-# FRED е основният доставчик (~70% от таблото). Ключът се чете от env или .env
-# в корена — същият модел като us-macro-dashboard (fail-loud е в адаптера).
-FRED_API_KEY = os.environ.get("FRED_API_KEY", "")
-if not FRED_API_KEY:
+# FRED е основният доставчик (~70% от таблото). Ключовете се четат от env,
+# с .env файла в корена като fallback ЗА ВСЕКИ ключ поотделно — иначе ключ,
+# дошъл от средата, би заглушил четенето на другите от .env.
+def _env_file_value(name: str) -> str:
     _env = BASE_DIR / ".env"
-    if _env.exists():
-        for _line in _env.read_text(encoding="utf-8").splitlines():
-            _line = _line.strip()
-            if _line.startswith("FRED_API_KEY="):
-                FRED_API_KEY = _line.split("=", 1)[1].strip().strip('"').strip("'")
-            elif _line.startswith("ESTAT_APP_ID="):
-                os.environ.setdefault("ESTAT_APP_ID", _line.split("=", 1)[1].strip())
+    if not _env.exists():
+        return ""
+    for _line in _env.read_text(encoding="utf-8").splitlines():
+        _line = _line.strip()
+        if _line.startswith(f"{name}="):
+            return _line.split("=", 1)[1].strip().strip('"').strip("'")
+    return ""
+
+
+FRED_API_KEY = os.environ.get("FRED_API_KEY", "") or _env_file_value("FRED_API_KEY")
 
 # e-Stat (фаза 4 — инфлационната леща). Регистрацията е безплатна; без ключ
 # e-Stat сериите просто не се фетчват и лещата остава без данни (ренормализация).
-ESTAT_APP_ID = os.environ.get("ESTAT_APP_ID", "")
+ESTAT_APP_ID = os.environ.get("ESTAT_APP_ID", "") or _env_file_value("ESTAT_APP_ID")
 
 # ─── MOF стабилни URL-и (йена-слоят, фаза 3) ─────────────────────────────────
 # Живо проверени 2026-08-05 (скаутът на INIT-26):
