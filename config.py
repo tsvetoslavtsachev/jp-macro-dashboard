@@ -115,10 +115,8 @@ LENS_BANDS = [
 ]
 
 # ─── Cross-reference ключове ─────────────────────────────────────────────────
-# Инфлационните ключове пристигат с фаза 4 (e-Stat); дотогава None и
-# консуматорите са длъжни да проверяват.
-CORE_DEFLATOR_KEY = None       # фаза 4: JP core CPI ex fresh food (BOJ мярката)
-HEADLINE_DEFLATOR_KEY = None   # фаза 4: JP headline CPI
+CORE_DEFLATOR_KEY = "JP_CPI_CORE"     # BOJ мярката: ex fresh food
+HEADLINE_DEFLATOR_KEY = "JP_CPI"
 NOMINAL_10Y_KEY = "JP_10Y"
 
 # ─── Един речник за лещите (ФОРМА-КАНОН) ─────────────────────────────────────

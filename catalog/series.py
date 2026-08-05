@@ -90,6 +90,51 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
                           "японския цикъл — реалните заплати го решават.",
     },
 
+    # ─── ИНФЛАЦИЯ (фаза 4: e-Stat — FRED няма жив месечен JP CPI) ────────────
+    # Таблица 0003427113 (CPI 2020-база, 1970→, живо проверена 05.08.2026).
+    # Индексът се фетчва суров (tab=1), г/г темпът се смята в уреда — не
+    # преписваме готовата колона (tab=3), за да е една дисциплината на
+    # трансформациите с останалите серии.
+
+    "JP_CPI": {
+        "source": "estat",
+        "id": "0003427113?tab=1&cat01=0001&area=00000",
+        "region": "JP",
+        "name_bg": "Инфлация (CPI headline, г/г)",
+        "name_en": "CPI All Items (YoY)",
+        "lens": ["inflation"],
+        "peer_group": "headline_inflation",
+        "tags": ["headline"],
+        "transform": "yoy_pct",
+        "is_rate": False,
+        "historical_start": "1970-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "next_month",
+        "revision_prone": False,
+        "narrative_hint": "Пълната кошница — вкл. прясната храна, която "
+                          "японската политика игнорира. Разликата headline−core "
+                          "е шумът на времето и реколтата.",
+    },
+    "JP_CPI_CORE": {
+        "source": "estat",
+        "id": "0003427113?tab=1&cat01=0161&area=00000",
+        "region": "JP",
+        "name_bg": "Ядрена инфлация (без прясна храна, г/г)",
+        "name_en": "CPI ex Fresh Food (YoY)",
+        "lens": ["inflation"],
+        "peer_group": "core_inflation",
+        "tags": ["headline"],
+        "transform": "yoy_pct",
+        "is_rate": False,
+        "historical_start": "1970-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "next_month",
+        "revision_prone": False,
+        "narrative_hint": "МЯРКАТА НА BOJ — ядреният CPI в японския смисъл "
+                          "(без прясна храна, С енергия). Целта от 2% се "
+                          "мери точно срещу тази серия.",
+    },
+
     # ─── ПАЗАР НА ТРУДА ──────────────────────────────────────────────────────
 
     "JP_UNRATE": {
@@ -300,6 +345,29 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
         "narrative_hint": "Хроничен дефицит от 90-те; годишният ритъм на IMF "
                           "WEO е причината фискалът да е контекст, не леща "
                           "(мандат INIT-26, решение №1).",
+    },
+
+    # ─── ИНФЛАЦИОНЕН КОНТЕКСТ ────────────────────────────────────────────────
+
+    "JP_CPI_CORECORE": {
+        "source": "estat",
+        "id": "0003427113?tab=1&cat01=0178&area=00000",
+        "region": "JP",
+        "name_bg": "Core-core инфлация (без прясна храна и енергия, г/г)",
+        "name_en": "CPI ex Fresh Food & Energy (YoY)",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": [],
+        "transform": "yoy_pct",
+        "is_rate": False,
+        "historical_start": "1970-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "next_month",
+        "revision_prone": False,
+        "narrative_hint": "Западната ядрена мярка — без храна И енергия. "
+                          "Разликата core−corecore показва колко от японската "
+                          "инфлация е внесена енергия (и значи: йена).",
     },
 
     # ─── КРЕДИТЕН КОНТЕКСТ ───────────────────────────────────────────────────
