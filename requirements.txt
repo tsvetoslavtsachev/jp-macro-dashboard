@@ -1,0 +1,8 @@
+pandas>=2.0.0
+numpy>=1.24.0
+requests>=2.31.0
+# FRED е основният доставчик (~70% от таблото + йена-слоят).
+fredapi>=0.5.0
+# Само за реконструираната лещова история: data/lens_history.parquet
+# (analysis/lens_history.py). Живият журнал е CSV и не иска нищо допълнително.
+pyarrow>=14.0.0
