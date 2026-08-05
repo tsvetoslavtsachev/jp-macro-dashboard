@@ -487,6 +487,133 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
                           "— дългият край движи хеджираните облигационни "
                           "потоци на японските институции.",
     },
+
+    # ─── MOF: JGB кривата (daily, 1974→) + седмичните потоци (2005→) ─────────
+    # Двата стабилни CSV-а, живо проверени 05.08 (мандат, раздел 4).
+
+    "JP_JGB_2Y": {
+        "source": "mof",
+        "id": "jgb:2Y",
+        "region": "JP",
+        "name_bg": "2-годишна JGB доходност (дневна)",
+        "name_en": "2Y JGB Yield (daily)",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": ["yen_layer", "rates"],
+        "transform": "level",
+        "is_rate": True,
+        "historical_start": "1974-09-24",
+        "release_schedule": "daily",
+        "typical_release": "daily",
+        "revision_prone": False,
+        "narrative_hint": "Късият край на кривата — най-чистото пазарно "
+                          "четене на BOJ траекторията; родител на carry "
+                          "диференциала US−JP 2Y.",
+    },
+    "JP_JGB_10Y_D": {
+        "source": "mof",
+        "id": "jgb:10Y",
+        "region": "JP",
+        "name_bg": "10-годишна JGB доходност (дневна, MOF)",
+        "name_en": "10Y JGB Yield (daily, MOF)",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": ["yen_layer", "rates"],
+        "transform": "level",
+        "is_rate": True,
+        "historical_start": "1974-09-24",
+        "release_schedule": "daily",
+        "typical_release": "daily",
+        "revision_prone": False,
+        "narrative_hint": "Дневният близнак на скорираната месечна JP_10Y "
+                          "(FRED) — за диференциала срещу DGS10 и за кривата "
+                          "в йена-слоя. 1974→ покрива и балонната ера.",
+    },
+    "JP_FLOWS_NONRES_EQ": {
+        "source": "mof",
+        "id": "flows:nonres_equity_net",
+        "region": "JP",
+        "name_bg": "Нерезиденти: нетни покупки на японски акции (седмично)",
+        "name_en": "Non-residents' Net Purchases of Japanese Equities (weekly)",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": ["yen_layer", "flows"],
+        "transform": "level",
+        "is_rate": False,
+        "historical_start": "2005-01-08",
+        "release_schedule": "weekly",
+        "typical_release": "weekly",
+        "revision_prone": True,
+        "narrative_hint": "Чуждият апетит за японски акции, седмица по "
+                          "седмица (MOF ITS; 100 млн йени, + = покупка). "
+                          "Горивото на Nikkei ралитата от чужбина.",
+    },
+    "JP_FLOWS_RES_LTDEBT": {
+        "source": "mof",
+        "id": "flows:res_ltdebt_net",
+        "region": "JP",
+        "name_bg": "Резиденти: нетни покупки на чужди дългосрочни облигации (седмично)",
+        "name_en": "Residents' Net Purchases of Foreign Long-term Debt (weekly)",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": ["yen_layer", "flows"],
+        "transform": "level",
+        "is_rate": False,
+        "historical_start": "2005-01-08",
+        "release_schedule": "weekly",
+        "typical_release": "weekly",
+        "revision_prone": True,
+        "narrative_hint": "Японските пари навън към чужда доходност — "
+                          "класическият carry-съседен поток; обръщането му "
+                          "към дома е репатрационният сигнал.",
+    },
+
+    # ─── DERIVED: carry диференциалите (фаза 3) ──────────────────────────────
+    # Раждат се в sources/derived.py СЛЕД fetch-а; `id` е рецептата, не адрес.
+
+    "JP_CARRY_2Y": {
+        "source": "derived",
+        "id": "US_2Y − JP_JGB_2Y (дневна пресечка)",
+        "region": "JP",
+        "name_bg": "Carry диференциал US−JP 2Y",
+        "name_en": "US−JP 2Y Rate Differential",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": ["yen_layer", "carry"],
+        "transform": "level",
+        "is_rate": True,
+        "historical_start": "1976-06-01",
+        "release_schedule": "daily",
+        "typical_release": "daily",
+        "revision_prone": False,
+        "narrative_hint": "Сметката на carry трейда в късия край — колкото "
+                          "по-широк, толкова по-платен е шортът на йената; "
+                          "стесняването е горивото на unwind епизодите.",
+    },
+    "JP_CARRY_10Y": {
+        "source": "derived",
+        "id": "US_10Y − JP_JGB_10Y_D (дневна пресечка)",
+        "region": "JP",
+        "name_bg": "Диференциал US−JP 10Y",
+        "name_en": "US−JP 10Y Rate Differential",
+        "lens": [],
+        "context_only": True,
+        "peer_group": "context",
+        "tags": ["yen_layer", "carry"],
+        "transform": "level",
+        "is_rate": True,
+        "historical_start": "1976-06-01",
+        "release_schedule": "daily",
+        "typical_release": "daily",
+        "revision_prone": False,
+        "narrative_hint": "Дългият край на същата сметка — движи хеджираните "
+                          "облигационни потоци и структурната йена посока.",
+    },
 }
 
 

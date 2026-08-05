@@ -26,7 +26,9 @@ BASE_DIR = Path(__file__).parent
 sys.path.insert(0, str(BASE_DIR))
 
 from sources import build_adapters
+from sources.derived import derive_series
 from analysis.temperature import temperature
+from analysis.yen_segment import segment_lines, yen_segment
 from analysis.tension import annihilation, ratio_str
 from catalog.series import SERIES_CATALOG, series_by_source, validate_catalog
 from core.primitives import apply_transform
@@ -58,7 +60,9 @@ def _score_everything(force: bool = False) -> tuple[dict, dict, float | None, di
     """snapshot → лещови доклади → композит → режим. Единният път на всички команди."""
     adapters = build_adapters()
     snapshot = _build_snapshot(adapters, force=force)
-    # Фаза 3: derive_series (carry диференциалите) се ражда ТУК, преди скоринга.
+    # Фамилният ред: fetch → derive → score. Carry диференциалите се раждат
+    # тук, преди скоринга (те са context — но дисциплината е една за всички).
+    snapshot = derive_series(snapshot)
     lens_reports = compute_lens_reports(SERIES_CATALOG, snapshot)
     module_scores = {lens: rep["score"] for lens, rep in lens_reports.items()}
     composite = compute_composite_score(module_scores)
@@ -96,6 +100,10 @@ def cmd_status(args):
     # Тензионният слой — колко от лещовата енергия се погасява.
     tension = annihilation(lens_reports)
     print(f"⚖ Погасяване (К1): {ratio_str(tension)} — {tension['sentence']}")
+
+    # Йена-слоят (мандат INIT-26, решение №2) — отделен наблюдателен слой.
+    for line in segment_lines(yen_segment(snapshot)):
+        print(line)
 
     for lens, rep in lens_reports.items():
         z = rep["health_z"]
