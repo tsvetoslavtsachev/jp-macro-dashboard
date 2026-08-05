@@ -135,7 +135,8 @@ def cmd_status(args):
 
 
 def cmd_briefing(args):
-    """Генерира HTML дашборда + обновява историята и живия журнал."""
+    """Генерира HTML дашборда + api export-а + обновява историята и журнала."""
+    from export.macro_state import generate_macro_state
     from export.methodology import credit_reading, generate_methodology
     from export.weekly_briefing import generate_html
     from analysis.lens_history import (
@@ -154,8 +155,24 @@ def cmd_briefing(args):
     # РЕДЪТ Е ВАЖЕН: append ПРЕДИ wow. Записът за днес се ЗАМЕНЯ при повторен
     # пуск, а делтата се чете спрямо предишната ДАТА — така вторият пуск в
     # същия ден показва същото, а не нула.
-    append_journal(lens_reports, composite, temp=temp)
+    today = date.today()
+    journal = append_journal(lens_reports, composite, today=today, temp=temp)
     wow = wow_delta(load_journal())
+
+    # Машинният api export (мандат ORGANISM-v1 Ф1) се ражда СЛЕД журнала —
+    # executive_summary цитира записания PIT ред, не втора сметка. Ражда се
+    # ЗАЕДНО с другите повърхности (фамилният прецедент №52) и се сервира от
+    # Pages (`output/` е артефактът).
+    generate_macro_state(
+        str(BASE_DIR / "output" / "api" / "macro_state.json"),
+        journal=journal,
+        lens_reports=lens_reports,
+        regime=regime,
+        temp=temp,
+        tension=annihilation(lens_reports),
+        yen=yen_segment(snapshot),
+        today=today,
+    )
 
     output_file = BASE_DIR / "output" / "index.html"
     generate_html(snapshot, lens_reports, composite, regime, str(output_file),

@@ -61,12 +61,18 @@
 ```bash
 python run.py --status            # конзолен статус (кеш по TTL)
 python run.py --status --refresh  # форсиран fetch
-python run.py --briefing          # output/index.html + methodology.html + журнал
+python run.py --briefing          # output/index.html + methodology.html + журнал + api
 python run.py --export-context    # output/briefing_context_YYYY-MM-DD.md (за LLM)
 ```
 
 Седмичният ритуал (GitHub Actions, понеделник 06:00 UTC): pytest гейт →
 `--briefing --refresh` → `--export-context` → commit → Pages.
+
+Машинният export `output/api/macro_state.json` (фамилният шаблон на us/eu/cn;
+мандат ORGANISM-v1 Ф1) се ражда при `--briefing` СЛЕД журнала — executive
+частта цитира записания PIT ред, режимният ключ идва от `config.REGIME_KEYS`,
+йена-редовете са дословно `segment_lines`. Сервира се и от Pages
+(`/api/macro_state.json`) — консуматори: macro-satellite и организмовият дрил.
 
 ## Двете памети
 
