@@ -70,4 +70,4 @@ BASE_CSS = """
 """
 
 # Репото — един адрес за футъра на двете страници.
-REPO_URL = "https://github.com/tsvetoslavtsachev/bg-macro-dashboard"
+REPO_URL = "https://github.com/tsvetoslavtsachev/jp-macro-dashboard"

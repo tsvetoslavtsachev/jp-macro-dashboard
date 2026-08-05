@@ -135,25 +135,83 @@ def cmd_status(args):
 
 
 def cmd_briefing(args):
-    """HTML дашбордът + историята + журналът — идва с фаза 7 (export слоят)."""
-    print("⚠ --briefing идва с фаза 7 на мандата (export слоят: "
-          "weekly_briefing + methodology). Ползвай --status дотогава.")
-    return 1
+    """Генерира HTML дашборда + обновява историята и живия журнал."""
+    from export.methodology import credit_reading, generate_methodology
+    from export.weekly_briefing import generate_html
+    from analysis.lens_history import (
+        append_journal, build_history, load_journal, wow_delta, write_history,
+    )
+
+    snapshot, lens_reports, composite, regime = _score_everything(force=args.refresh)
+
+    # Реконструираната история се пресмята от СЪЩИЯ snapshot — последният ѝ ред
+    # е тъждествен на живото изчисление отгоре (вкл. `temp_count`).
+    history = build_history(SERIES_CATALOG, snapshot)
+    write_history(history)
+
+    temp = temperature(SERIES_CATALOG, snapshot)
+
+    # РЕДЪТ Е ВАЖЕН: append ПРЕДИ wow. Записът за днес се ЗАМЕНЯ при повторен
+    # пуск, а делтата се чете спрямо предишната ДАТА — така вторият пуск в
+    # същия ден показва същото, а не нула.
+    append_journal(lens_reports, composite, temp=temp)
+    wow = wow_delta(load_journal())
+
+    output_file = BASE_DIR / "output" / "index.html"
+    generate_html(snapshot, lens_reports, composite, regime, str(output_file),
+                  history=history, wow=wow, temp=temp,
+                  tension=annihilation(lens_reports))
+
+    # Двете страници се раждат ЗАЕДНО (фамилният прецедент №52). Ако
+    # методологията се генерираше отделно, лицето и обяснението му щяха да се
+    # разминат тихо — линкът щеше да води към вчерашния текст. Живото четене
+    # на 10Y JGB идва от СЪЩИТЕ лещови доклади (`credit_reading`).
+    generate_methodology(str(BASE_DIR / "output" / "methodology.html"),
+                         history=history,
+                         credit=credit_reading(lens_reports))
+    return 0
 
 
 def cmd_export_context(args):
-    """briefing_context експортът — идва с фаза 7 (export слоят)."""
-    print("⚠ --export-context идва с фаза 7 на мандата (export слоят: "
-          "briefing_context.py). Ползвай --status дотогава.")
-    return 1
+    """Markdown context за LLM анализ (горивото на macro-deep-brief-jp)."""
+    from export.briefing_context import generate_briefing_context
+    from analysis.lens_history import build_history, load_journal, wow_delta
+
+    snapshot, lens_reports, composite, regime = _score_everything(force=args.refresh)
+    if not snapshot:
+        print("⚠ Snapshot е празен. Пусни `python run.py --status --refresh` първо.")
+        return 1
+
+    # Историята се смята in-memory и НЕ се записва, журналът се ЧЕТЕ и НЕ се
+    # дописва: записът е на ритуалния момент (`--briefing`), а експортът на
+    # контекста е четец. Иначе двете команди щяха да раждат по един запис на
+    # ден и WoW делтата щеше да сравнява себе си със себе си.
+    history = build_history(SERIES_CATALOG, snapshot)
+    wow = wow_delta(load_journal())
+
+    today = date.today()
+    output_file = BASE_DIR / "output" / f"briefing_context_{today.isoformat()}.md"
+    generate_briefing_context(
+        snapshot=snapshot,
+        lens_reports=lens_reports,
+        composite=composite,
+        regime=regime,
+        output_path=str(output_file),
+        today=today,
+        history=history,
+        wow=wow,
+        temp=temperature(SERIES_CATALOG, snapshot),
+        tension=annihilation(lens_reports),
+    )
+    return 0
 
 
 def main():
     parser = argparse.ArgumentParser(description="Japan Macro Dashboard")
     parser.add_argument("--status", action="store_true", help="Показва статуса на данните")
-    parser.add_argument("--briefing", action="store_true", help="Генерира HTML дашборд (фаза 7)")
+    parser.add_argument("--briefing", action="store_true", help="Генерира HTML дашборд")
     parser.add_argument("--export-context", action="store_true",
-                        help="Генерира briefing_context за LLM анализ (фаза 7)")
+                        help="Генерира output/briefing_context_YYYY-MM-DD.md за LLM анализ")
     parser.add_argument("--refresh", action="store_true", help="Форсира обновяване на данните")
 
     args = parser.parse_args()
