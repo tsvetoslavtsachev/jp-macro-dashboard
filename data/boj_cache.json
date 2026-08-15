@@ -2,7 +2,7 @@
   "JP_CA": {
     "source_id": "bp:BPBP6JYNCB",
     "schedule": "monthly",
-    "last_fetched": "2026-08-10T07:18:11.246343",
+    "last_fetched": "2026-08-15T03:11:59.711756",
     "last_observation": "2026-06-01",
     "n_observations": 366,
     "data": {
@@ -377,9 +377,9 @@
   "JP_CGPI": {
     "source_id": "cgpi:PRCG20_2200000000",
     "schedule": "monthly",
-    "last_fetched": "2026-08-10T07:18:11.688842",
-    "last_observation": "2026-06-01",
-    "n_observations": 78,
+    "last_fetched": "2026-08-15T03:12:00.126985",
+    "last_observation": "2026-07-01",
+    "n_observations": 79,
     "data": {
       "2020-01-01": 102.1,
       "2020-02-01": 101.7,
@@ -458,7 +458,8 @@
       "2026-03-01": 129.8,
       "2026-04-01": 133.4,
       "2026-05-01": 134.9,
-      "2026-06-01": 135.4
+      "2026-06-01": 135.6,
+      "2026-07-01": 135.8
     }
   }
 }

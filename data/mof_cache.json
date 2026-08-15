@@ -2,7 +2,7 @@
   "JP_JGB_2Y": {
     "source_id": "jgb:2Y",
     "schedule": "daily",
-    "last_fetched": "2026-08-10T07:18:05.104720",
+    "last_fetched": "2026-08-15T03:11:52.906390",
     "last_observation": "2026-07-31",
     "n_observations": 12909,
     "data": {
@@ -12920,7 +12920,7 @@
   "JP_JGB_10Y_D": {
     "source_id": "jgb:10Y",
     "schedule": "daily",
-    "last_fetched": "2026-08-10T07:18:05.168321",
+    "last_fetched": "2026-08-15T03:11:52.969770",
     "last_observation": "2026-07-31",
     "n_observations": 9909,
     "data": {
@@ -22838,9 +22838,9 @@
   "JP_FLOWS_NONRES_EQ": {
     "source_id": "flows:nonres_equity_net",
     "schedule": "weekly",
-    "last_fetched": "2026-08-10T07:18:06.656005",
-    "last_observation": "2026-08-01",
-    "n_observations": 1109,
+    "last_fetched": "2026-08-15T03:11:54.527605",
+    "last_observation": "2026-08-08",
+    "n_observations": 1110,
     "data": {
       "2005-01-08": 2278.0,
       "2005-01-15": 2180.0,
@@ -23950,15 +23950,16 @@
       "2026-07-11": 7426.0,
       "2026-07-18": -819.0,
       "2026-07-25": 9124.0,
-      "2026-08-01": -3925.0
+      "2026-08-01": -3925.0,
+      "2026-08-08": -3685.0
     }
   },
   "JP_FLOWS_RES_LTDEBT": {
     "source_id": "flows:res_ltdebt_net",
     "schedule": "weekly",
-    "last_fetched": "2026-08-10T07:18:06.669036",
-    "last_observation": "2026-08-01",
-    "n_observations": 1109,
+    "last_fetched": "2026-08-15T03:11:54.540366",
+    "last_observation": "2026-08-08",
+    "n_observations": 1110,
     "data": {
       "2005-01-08": 8878.0,
       "2005-01-15": 3708.0,
@@ -25068,7 +25069,8 @@
       "2026-07-11": 10929.0,
       "2026-07-18": -7237.0,
       "2026-07-25": -8101.0,
-      "2026-08-01": 4779.0
+      "2026-08-01": 4779.0,
+      "2026-08-08": 16294.0
     }
   }
 }
