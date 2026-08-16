@@ -90,7 +90,7 @@
   мандат ORGANISM-v1 Ф1): фамилната схема на us/eu/cn + JP слоевете;
   executive_summary цитира последния журнален ред (fail-loud без него);
   `regime_key` от `config.REGIME_KEYS`; йена-редовете дословно
-  `segment_lines`. Консуматори: macro-satellite + организмовият дрил.
+  `segment_lines`. Консуматори: macro-satellite + аналитичният дрил.
 - `page_style.py` — ЕДИН CSS за двете страници.
 
 ### scripts/ — празно (JP v1 няма ръчен seed)

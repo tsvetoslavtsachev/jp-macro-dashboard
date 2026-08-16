@@ -72,7 +72,7 @@ python run.py --export-context    # output/briefing_context_YYYY-MM-DD.md (за 
 мандат ORGANISM-v1 Ф1) се ражда при `--briefing` СЛЕД журнала — executive
 частта цитира записания PIT ред, режимният ключ идва от `config.REGIME_KEYS`,
 йена-редовете са дословно `segment_lines`. Сервира се и от Pages
-(`/api/macro_state.json`) — консуматори: macro-satellite и организмовият дрил.
+(`/api/macro_state.json`) — консуматори: macro-satellite и аналитичният дрил.
 
 ## Двете памети
 
