@@ -497,7 +497,7 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
         "release_schedule": "daily",
         "typical_release": "daily",
         "revision_prone": False,
-        "narrative_hint": "Директната серия, която организмът нямаше — дрилът "
+        "narrative_hint": "Директната серия, която обсерваторията нямаше — дрилът "
                           "05.08 четеше двойката през UUP×FXY прокси-та. "
                           "1971→, дневна.",
     },
