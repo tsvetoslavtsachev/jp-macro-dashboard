@@ -2,8 +2,8 @@
   "region": "JP",
   "schema": "jp-macro-state v1",
   "engine": "robust-z-10y-mad",
-  "as_of_date": "2026-08-22",
-  "generated_at": "2026-08-22T03:14:40+00:00",
+  "as_of_date": "2026-08-24",
+  "generated_at": "2026-08-24T06:42:33+00:00",
   "note_bg": "НАБЛЮДЕНИЕ, НЕ СИГНАЛ — уредът наблюдава състояние, не издава сигнал за действие.",
   "executive_summary": {
     "composite_score": 54.2,
