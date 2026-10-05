@@ -4,8 +4,8 @@ core/primitives.py
 Математически примитиви за макро анализ.
 
 Робастната част (`robust_stats_latest`) е портната от фамилния двигател
-(`dashboards/eu-macro-dashboard/core/primitives.py`) — виж
-`dashboards/macro-satellite/LENS_SCORING_METHODOLOGY.md` §2.
+(`macro/eu-macro-dashboard/core/primitives.py`) — виж
+`macro/macro-satellite/LENS_SCORING_METHODOLOGY.md` §2.
 """
 import numpy as np
 import pandas as pd

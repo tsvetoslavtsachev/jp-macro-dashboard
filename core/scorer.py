@@ -3,9 +3,9 @@ core/scorer.py
 ==============
 Робастният lens scoring двигател на българската макро повърхност.
 
-Портнат от `dashboards/eu-macro-dashboard` (core/scorer.py + analysis/health.py);
+Портнат от `macro/eu-macro-dashboard` (core/scorer.py + analysis/health.py);
 референтният документ на фамилията е
-`dashboards/macro-satellite/LENS_SCORING_METHODOLOGY.md`.
+`macro/macro-satellite/LENS_SCORING_METHODOLOGY.md`.
 
 Веригата (един примитив, локална норма):
   1. каталожна трансформация  → темп вместо ниво за номиналните серии
