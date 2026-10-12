@@ -2,7 +2,7 @@
   "JP_JGB_2Y": {
     "source_id": "jgb:2Y",
     "schedule": "daily",
-    "last_fetched": "2026-10-10T08:46:42.329169",
+    "last_fetched": "2026-10-12T14:06:42.988229",
     "last_observation": "2026-09-30",
     "n_observations": 12948,
     "data": {
@@ -12959,7 +12959,7 @@
   "JP_JGB_10Y_D": {
     "source_id": "jgb:10Y",
     "schedule": "daily",
-    "last_fetched": "2026-10-10T08:46:42.390630",
+    "last_fetched": "2026-10-12T14:06:43.037502",
     "last_observation": "2026-09-30",
     "n_observations": 9948,
     "data": {
@@ -22916,7 +22916,7 @@
   "JP_FLOWS_NONRES_EQ": {
     "source_id": "flows:nonres_equity_net",
     "schedule": "weekly",
-    "last_fetched": "2026-10-10T08:46:43.489435",
+    "last_fetched": "2026-10-12T14:06:43.932434",
     "last_observation": "2026-10-03",
     "n_observations": 1118,
     "data": {
@@ -24043,7 +24043,7 @@
   "JP_FLOWS_RES_LTDEBT": {
     "source_id": "flows:res_ltdebt_net",
     "schedule": "weekly",
-    "last_fetched": "2026-10-10T08:46:43.502397",
+    "last_fetched": "2026-10-12T14:06:43.942348",
     "last_observation": "2026-10-03",
     "n_observations": 1118,
     "data": {
