@@ -2,7 +2,7 @@
   "JP_RGDP": {
     "source_id": "JPNRGDPEXP",
     "schedule": "quarterly",
-    "last_fetched": "2026-11-07T09:01:28.010149",
+    "last_fetched": "2026-11-09T14:53:03.482112",
     "last_observation": "2026-04-01",
     "n_observations": 130,
     "data": {
@@ -141,7 +141,7 @@
   "JP_INDPRO": {
     "source_id": "JPNPRINTO01GYSAM",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:28.399411",
+    "last_fetched": "2026-11-09T14:53:03.882938",
     "last_observation": "2026-07-01",
     "n_observations": 847,
     "data": {
@@ -997,7 +997,7 @@
   "JP_RETAIL": {
     "source_id": "JPNSLRTTO01GYSAM",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:28.685461",
+    "last_fetched": "2026-11-09T14:53:04.289094",
     "last_observation": "2026-06-01",
     "n_observations": 846,
     "data": {
@@ -1852,7 +1852,7 @@
   "JP_UNRATE": {
     "source_id": "LRUN64TTJPM156S",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:28.977844",
+    "last_fetched": "2026-11-09T14:53:04.653807",
     "last_observation": "2026-08-01",
     "n_observations": 680,
     "data": {
@@ -2541,7 +2541,7 @@
   "JP_EARNINGS_MFG": {
     "source_id": "LCEAMN01JPM659S",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:29.237638",
+    "last_fetched": "2026-11-09T14:53:05.115068",
     "last_observation": "2026-07-01",
     "n_observations": 847,
     "data": {
@@ -3397,7 +3397,7 @@
   "JP_CREDIT_GDP_NFC": {
     "source_id": "QJPNAM770A",
     "schedule": "quarterly",
-    "last_fetched": "2026-11-07T09:01:29.719715",
+    "last_fetched": "2026-11-09T14:53:05.758046",
     "last_observation": "2025-10-01",
     "n_observations": 245,
     "data": {
@@ -3651,7 +3651,7 @@
   "JP_CREDIT_GDP_HH": {
     "source_id": "QJPHAM770A",
     "schedule": "quarterly",
-    "last_fetched": "2026-11-07T09:01:30.244197",
+    "last_fetched": "2026-11-09T14:53:06.144482",
     "last_observation": "2025-10-01",
     "n_observations": 245,
     "data": {
@@ -3905,7 +3905,7 @@
   "JP_10Y": {
     "source_id": "IRLTLT01JPM156N",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:30.721250",
+    "last_fetched": "2026-11-09T14:53:06.426074",
     "last_observation": "2026-09-01",
     "n_observations": 453,
     "data": {
@@ -4367,7 +4367,7 @@
   "JP_TRADE_BAL": {
     "source_id": "XTNTVA01JPM664S",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:30.989727",
+    "last_fetched": "2026-11-09T14:53:06.945155",
     "last_observation": "2026-08-01",
     "n_observations": 860,
     "data": {
@@ -5236,7 +5236,7 @@
   "JP_EXPORTS": {
     "source_id": "XTEXVA01JPM667S",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:31.205259",
+    "last_fetched": "2026-11-09T14:53:07.667801",
     "last_observation": "2026-08-01",
     "n_observations": 836,
     "data": {
@@ -6081,7 +6081,7 @@
   "JP_RPPI": {
     "source_id": "QJPN628BIS",
     "schedule": "quarterly",
-    "last_fetched": "2026-11-07T09:01:31.463137",
+    "last_fetched": "2026-11-09T14:53:08.333372",
     "last_observation": "2025-10-01",
     "n_observations": 284,
     "data": {
@@ -6374,7 +6374,7 @@
   "JP_GOV_DEBT": {
     "source_id": "GGGDTAJPA188N",
     "schedule": "annually",
-    "last_fetched": "2026-11-07T09:01:32.011422",
+    "last_fetched": "2026-11-09T14:53:08.710683",
     "last_observation": "2023-01-01",
     "n_observations": 44,
     "data": {
@@ -6427,7 +6427,7 @@
   "JP_GOV_BAL": {
     "source_id": "GGNLBAJPA188N",
     "schedule": "annually",
-    "last_fetched": "2026-11-07T09:01:32.649138",
+    "last_fetched": "2026-11-09T14:53:09.670112",
     "last_observation": "2023-01-01",
     "n_observations": 44,
     "data": {
@@ -6480,7 +6480,7 @@
   "JP_CREDIT_GDP_PNF": {
     "source_id": "QJPPAM770A",
     "schedule": "quarterly",
-    "last_fetched": "2026-11-07T09:01:33.515375",
+    "last_fetched": "2026-11-09T14:53:10.501417",
     "last_observation": "2025-10-01",
     "n_observations": 245,
     "data": {
@@ -6734,7 +6734,7 @@
   "JP_CALL_RATE": {
     "source_id": "IRSTCI01JPM156N",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:33.881233",
+    "last_fetched": "2026-11-09T14:53:10.814003",
     "last_observation": "2026-09-01",
     "n_observations": 495,
     "data": {
@@ -7238,7 +7238,7 @@
   "JP_TIBOR3M": {
     "source_id": "IR3TIB01JPM156N",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:34.094578",
+    "last_fetched": "2026-11-09T14:53:11.092247",
     "last_observation": "2026-08-01",
     "n_observations": 293,
     "data": {
@@ -7540,7 +7540,7 @@
   "JP_USDJPY": {
     "source_id": "DEXJPUS",
     "schedule": "daily",
-    "last_fetched": "2026-11-07T09:01:34.972336",
+    "last_fetched": "2026-11-09T14:53:13.399371",
     "last_observation": "2026-10-30",
     "n_observations": 13994,
     "data": {
@@ -21543,7 +21543,7 @@
   "JP_REER": {
     "source_id": "RBJPBIS",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:35.406132",
+    "last_fetched": "2026-11-09T14:53:13.891332",
     "last_observation": "2026-07-01",
     "n_observations": 391,
     "data": {
@@ -21943,7 +21943,7 @@
   "JP_BOJ_ASSETS": {
     "source_id": "JPNASSETS",
     "schedule": "monthly",
-    "last_fetched": "2026-11-07T09:01:35.708462",
+    "last_fetched": "2026-11-09T14:53:14.220080",
     "last_observation": "2026-10-01",
     "n_observations": 343,
     "data": {
@@ -22295,9 +22295,9 @@
   "JP_NIKKEI": {
     "source_id": "NIKKEI225",
     "schedule": "daily",
-    "last_fetched": "2026-11-07T09:01:36.707100",
-    "last_observation": "2026-11-06",
-    "n_observations": 19234,
+    "last_fetched": "2026-11-09T14:53:16.644700",
+    "last_observation": "2026-11-09",
+    "n_observations": 19235,
     "data": {
       "1949-05-16": 176.21,
       "1949-05-17": 174.8,
@@ -41532,13 +41532,14 @@
       "2026-11-02": 63081.86,
       "2026-11-04": 62188.63,
       "2026-11-05": 61077.9,
-      "2026-11-06": 57434.77
+      "2026-11-06": 57434.77,
+      "2026-11-09": 58775.5
     }
   },
   "US_2Y": {
     "source_id": "DGS2",
     "schedule": "daily",
-    "last_fetched": "2026-11-07T09:01:37.844582",
+    "last_fetched": "2026-11-09T14:53:18.234961",
     "last_observation": "2026-11-05",
     "n_observations": 12605,
     "data": {
@@ -54152,7 +54153,7 @@
   "US_10Y": {
     "source_id": "DGS10",
     "schedule": "daily",
-    "last_fetched": "2026-11-07T09:01:38.582420",
+    "last_fetched": "2026-11-09T14:53:20.254636",
     "last_observation": "2026-11-05",
     "n_observations": 16197,
     "data": {
