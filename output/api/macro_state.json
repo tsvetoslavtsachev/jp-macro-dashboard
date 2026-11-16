@@ -2,20 +2,20 @@
   "region": "JP",
   "schema": "jp-macro-state v1",
   "engine": "robust-z-10y-mad",
-  "as_of_date": "2026-11-14",
-  "generated_at": "2026-11-14T09:13:26+00:00",
+  "as_of_date": "2026-11-16",
+  "generated_at": "2026-11-16T14:29:18+00:00",
   "note_bg": "НАБЛЮДЕНИЕ, НЕ СИГНАЛ — уредът наблюдава състояние, не издава сигнал за действие.",
   "executive_summary": {
-    "composite_score": 54.8,
+    "composite_score": 55.4,
     "regime_key": "mixed",
     "regime_label_bg": "СМЕСЕН",
     "regime_color": "#ffd600",
     "n_series": 14,
     "n_lenses": 6,
     "temp_count": 1,
-    "k1_ratio": 0.7572,
+    "k1_ratio": 0.7342,
     "composition": "33s6l-9ba47357",
-    "tension_sentence": "76% от лещовата енергия се погасява в средното — композитът е по-спокоен от състоянието; тежи кредитът (+9.6 т.), крепи пазарът на труда (-4.1 т.)."
+    "tension_sentence": "73% от лещовата енергия се погасява в средното — композитът е по-спокоен от състоянието; тежи кредитът (+9.7 т.), крепи пазарът на труда (-4.0 т.)."
   },
   "lenses": {
     "inflation": {
@@ -24,8 +24,8 @@
       "n_series": 2
     },
     "growth": {
-      "score": 54.1,
-      "health_z": 0.163,
+      "score": 57.2,
+      "health_z": 0.29,
       "n_series": 3
     },
     "labor": {
