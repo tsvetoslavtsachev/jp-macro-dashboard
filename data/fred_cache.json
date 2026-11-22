@@ -7555,7 +7555,7 @@
   "JP_USDJPY": {
     "source_id": "DEXJPUS",
     "schedule": "daily",
-    "last_fetched": "2026-11-21T10:01:19.147976",
+    "last_fetched": "2026-11-22T20:33:04.488998",
     "last_observation": "2026-11-13",
     "n_observations": 14003,
     "data": {
@@ -22322,7 +22322,7 @@
   "JP_NIKKEI": {
     "source_id": "NIKKEI225",
     "schedule": "daily",
-    "last_fetched": "2026-11-21T10:01:21.206622",
+    "last_fetched": "2026-11-22T20:33:06.663485",
     "last_observation": "2026-11-20",
     "n_observations": 19244,
     "data": {
@@ -41575,7 +41575,7 @@
   "US_2Y": {
     "source_id": "DGS2",
     "schedule": "daily",
-    "last_fetched": "2026-11-21T10:01:22.299251",
+    "last_fetched": "2026-11-22T20:33:08.051828",
     "last_observation": "2026-11-19",
     "n_observations": 12614,
     "data": {
@@ -54198,7 +54198,7 @@
   "US_10Y": {
     "source_id": "DGS10",
     "schedule": "daily",
-    "last_fetched": "2026-11-21T10:01:23.258507",
+    "last_fetched": "2026-11-22T20:33:09.904309",
     "last_observation": "2026-11-19",
     "n_observations": 16206,
     "data": {

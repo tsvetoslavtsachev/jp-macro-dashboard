@@ -2,7 +2,7 @@
   "JP_JGB_2Y": {
     "source_id": "jgb:2Y",
     "schedule": "daily",
-    "last_fetched": "2026-11-21T10:01:25.872216",
+    "last_fetched": "2026-11-22T20:33:12.321212",
     "last_observation": "2026-10-30",
     "n_observations": 12969,
     "data": {
@@ -12980,7 +12980,7 @@
   "JP_JGB_10Y_D": {
     "source_id": "jgb:10Y",
     "schedule": "daily",
-    "last_fetched": "2026-11-21T10:01:25.905669",
+    "last_fetched": "2026-11-22T20:33:12.381690",
     "last_observation": "2026-10-30",
     "n_observations": 9969,
     "data": {
