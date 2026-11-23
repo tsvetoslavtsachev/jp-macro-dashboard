@@ -2,7 +2,7 @@
   "JP_CPI": {
     "source_id": "0003427113?tab=1&cat01=0001&area=00000",
     "schedule": "monthly",
-    "last_fetched": "2026-11-21T10:01:28.638389",
+    "last_fetched": "2026-11-23T17:02:20.932592",
     "last_observation": "2026-10-01",
     "n_observations": 682,
     "data": {
@@ -693,7 +693,7 @@
   "JP_CPI_CORE": {
     "source_id": "0003427113?tab=1&cat01=0161&area=00000",
     "schedule": "monthly",
-    "last_fetched": "2026-11-21T10:01:30.109056",
+    "last_fetched": "2026-11-23T17:02:22.224539",
     "last_observation": "2026-10-01",
     "n_observations": 682,
     "data": {
@@ -1384,7 +1384,7 @@
   "JP_CPI_CORECORE": {
     "source_id": "0003427113?tab=1&cat01=0178&area=00000",
     "schedule": "monthly",
-    "last_fetched": "2026-11-21T10:01:31.866309",
+    "last_fetched": "2026-11-23T17:02:23.383650",
     "last_observation": "2026-10-01",
     "n_observations": 682,
     "data": {

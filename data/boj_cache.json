@@ -2,7 +2,7 @@
   "JP_CA": {
     "source_id": "bp:BPBP6JYNCB",
     "schedule": "monthly",
-    "last_fetched": "2026-11-21T10:01:33.522313",
+    "last_fetched": "2026-11-23T17:02:24.528803",
     "last_observation": "2026-09-01",
     "n_observations": 369,
     "data": {
@@ -380,7 +380,7 @@
   "JP_CGPI": {
     "source_id": "cgpi:PRCG20_2200000000",
     "schedule": "monthly",
-    "last_fetched": "2026-11-21T10:01:33.822026",
+    "last_fetched": "2026-11-23T17:02:25.011029",
     "last_observation": "2026-10-01",
     "n_observations": 82,
     "data": {
