@@ -3,7 +3,7 @@
   "schema": "jp-macro-state v1",
   "engine": "robust-z-10y-mad",
   "as_of_date": "2026-11-23",
-  "generated_at": "2026-11-23T17:02:27+00:00",
+  "generated_at": "2026-11-23T21:10:37+00:00",
   "note_bg": "НАБЛЮДЕНИЕ, НЕ СИГНАЛ — уредът наблюдава състояние, не издава сигнал за действие.",
   "executive_summary": {
     "composite_score": 57.2,
