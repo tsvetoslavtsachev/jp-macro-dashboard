@@ -138,6 +138,7 @@ def cmd_briefing(args):
     """Генерира HTML дашборда + api export-а + обновява историята и журнала."""
     from export.macro_state import generate_macro_state
     from export.methodology import credit_reading, generate_methodology
+    from export.series_data import write_series_data
     from export.weekly_briefing import generate_html
     from analysis.lens_history import (
         append_journal, build_history, load_journal, wow_delta, write_history,
@@ -172,6 +173,13 @@ def cmd_briefing(args):
         tension=annihilation(lens_reports),
         yen=yen_segment(snapshot),
         today=today,
+    )
+
+    # Времеви редове за графиките (ПРОЛЕТР4) — същата схема като US/CN.
+    # Скоровете са от lens_reports (вече пресметнати), не нова сметка.
+    write_series_data(
+        str(BASE_DIR / "output" / "api" / "series_data.json"),
+        snapshot=snapshot, lens_reports=lens_reports, today=today,
     )
 
     output_file = BASE_DIR / "output" / "index.html"

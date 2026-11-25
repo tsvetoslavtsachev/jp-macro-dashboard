@@ -24,6 +24,7 @@ from __future__ import annotations
 import csv
 import io
 import re
+import logging
 
 import pandas as pd
 import requests
@@ -31,6 +32,8 @@ import requests
 from sources._base import BaseAdapter
 
 import config
+
+logger = logging.getLogger(__name__)
 
 # Колонните индекси в week.csv (0 = период). Секция 1 = резиденти навън
 # (Portfolio Investment Assets), секция 2 = нерезиденти навътре (Liabilities).
@@ -82,6 +85,22 @@ def parse_jgb_csv(text: str, tenor: str) -> pd.Series:
         except (ValueError, TypeError):
             continue
     return pd.Series(values, index=pd.DatetimeIndex(dates)).sort_index()
+
+
+def merge_jgb(
+    cached: pd.Series | None,
+    historical: pd.Series,
+    current: pd.Series | None,
+) -> pd.Series:
+    """Обединение на датите: стар кеш < исторически файл < текущ месец."""
+    out = historical
+    if cached is not None and len(cached):
+        out = pd.concat([cached, out])
+        out = out[~out.index.duplicated(keep="last")]
+    if current is not None and len(current):
+        out = pd.concat([out, current])
+        out = out[~out.index.duplicated(keep="last")]
+    return out.sort_index()
 
 
 def _parse_period_end(raw: str) -> pd.Timestamp | None:
@@ -140,7 +159,16 @@ class MofAdapter(BaseAdapter):
         # Двата файла носят ВСИЧКИ серии — свалят се веднъж на fetch сесия,
         # не веднъж на серия.
         self._jgb_text: str | None = None
+        self._jgb_current_text: str | None = None
         self._flows_text: str | None = None
+
+    def _cached_series(self, series_key: str) -> pd.Series | None:
+        data = (self._cache.get(series_key) or {}).get("data") or {}
+        if not data:
+            return None
+        return pd.Series(
+            list(data.values()), index=pd.DatetimeIndex(list(data.keys()))
+        ).sort_index()
 
     def _download(self, url: str, encoding: str) -> str:
         resp = requests.get(url, timeout=60)
@@ -152,7 +180,22 @@ class MofAdapter(BaseAdapter):
         if kind == "jgb":
             if self._jgb_text is None:
                 self._jgb_text = self._download(config.MOF_JGB_HISTORICAL_CSV, "utf-8")
-            return parse_jgb_csv(self._jgb_text, field)
+            if self._jgb_current_text is None:
+                # Историческият файл изостава до края на предишния месец;
+                # текущият месец е в jgbcme.csv. Без него → warning, не срив.
+                try:
+                    self._jgb_current_text = self._download(
+                        config.MOF_JGB_CURRENT_CSV, "utf-8"
+                    )
+                except Exception as e:  # noqa: BLE001
+                    logger.warning(f"MOF текущ месец (jgbcme.csv) не се свали: {e}")
+                    self._jgb_current_text = ""
+            return merge_jgb(
+                self._cached_series(series_key),
+                parse_jgb_csv(self._jgb_text, field),
+                parse_jgb_csv(self._jgb_current_text, field)
+                if self._jgb_current_text else None,
+            )
         if kind == "flows":
             if self._flows_text is None:
                 self._flows_text = self._download(config.MOF_WEEKLY_FLOWS_CSV, "shift_jis")

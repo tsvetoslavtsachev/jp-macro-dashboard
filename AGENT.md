@@ -91,6 +91,9 @@
   executive_summary цитира последния журнален ред (fail-loud без него);
   `regime_key` от `config.REGIME_KEYS`; йена-редовете дословно
   `segment_lines`. Консуматори: macro-satellite + аналитичният дрил.
+- `series_data.py` — времеви редове за графиките (`output/api/series_data.json`,
+  ПРОЛЕТР4): схемата на us/cn `{meta, latest, chart}`, 10 години; скоровете са
+  от лещовите доклади/`score_series`, не втора сметка; `yoy_change` по дата.
 - `page_style.py` — ЕДИН CSS за двете страници.
 
 ### scripts/ — празно (JP v1 няма ръчен seed)
