@@ -114,3 +114,56 @@ def test_flows_header_rows_do_not_leak_into_data():
 def test_flows_unknown_field_raises_loudly():
     with pytest.raises(ValueError):
         parse_flows_csv(FLOWS_SAMPLE, "no_such_field")
+
+
+# ─── Текущ месец + merge (ПРОЛЕТР4) ──────────────────────────────────────────
+from sources.mof_adapter import MofAdapter, merge_jgb  # noqa: E402
+
+JGB_CURRENT = """Interest Rate,,,,,,,,,,,,,,,(Unit : %)
+Date,1Y,2Y,3Y,4Y,5Y,6Y,7Y,8Y,9Y,10Y,15Y,20Y,25Y,30Y,40Y
+2026/11/2,1.3,1.6,1.7,1.9,2.1,2.2,2.4,2.5,2.7,2.9,3.4,3.7,4.0,4.0,3.9
+2026/7/31,1.255,1.507,1.658,1.876,2.044,2.19,2.343,2.517,2.658,9.999,3.382,3.69,3.987,3.982,3.967
+"""
+
+
+def test_current_month_format_parses():
+    s = parse_jgb_csv(JGB_CURRENT, "10Y")
+    assert s.loc["2026-11-02"] == 2.9
+
+
+def test_merge_keeps_old_dates_and_current_overrides_historical():
+    old = pd.Series([1.0, 2.0], index=pd.DatetimeIndex(["2026-06-30", "2026-07-30"]))
+    hist = parse_jgb_csv(JGB_SAMPLE, "10Y")
+    cur = parse_jgb_csv(JGB_CURRENT, "10Y")
+    out = merge_jgb(old, hist, cur)
+    assert out.loc["2026-06-30"] == 1.0        # стара дата оцеляла
+    assert out.loc["2026-07-30"] == 2.0
+    assert out.loc["2026-07-31"] == 9.999      # текущият бие историческия
+    assert out.index.max() == pd.Timestamp("2026-11-02")
+
+
+def test_adapter_downloads_both_files_and_merges(tmp_path, monkeypatch):
+    ad = MofAdapter(cache_path=str(tmp_path / "c.json"))
+    urls = []
+
+    def fake(url, enc):
+        urls.append(url)
+        return JGB_CURRENT if url.endswith("/jgbcme.csv") else JGB_SAMPLE
+
+    monkeypatch.setattr(ad, "_download", fake)
+    s = ad._fetch_remote("JP_JGB_10Y_D", "jgb:10Y")
+    assert len(urls) == 2
+    assert s.index.max() == pd.Timestamp("2026-11-02")
+
+
+def test_current_download_failure_keeps_historical(tmp_path, monkeypatch):
+    ad = MofAdapter(cache_path=str(tmp_path / "c.json"))
+
+    def fake(url, enc):
+        if url.endswith("/jgbcme.csv"):
+            raise RuntimeError("boom")
+        return JGB_SAMPLE
+
+    monkeypatch.setattr(ad, "_download", fake)
+    s = ad._fetch_remote("JP_JGB_10Y_D", "jgb:10Y")
+    assert s.index.max() == pd.Timestamp("2026-07-31")
