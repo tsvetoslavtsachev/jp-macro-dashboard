@@ -796,6 +796,42 @@ SERIES_CATALOG: dict[str, dict[str, Any]] = {
         "revision_prone": False,
         "narrative_hint": "OECD през FRED, от проучването на работната сила. Демографията свива работната сила, затова нормата на ръста е ниска.",
     },
+    # ── ПРОЛЕТР4 (26.11.2026, реш. Ц. ЯП-3 „Добави ги“): e-Stat, отделните серии на индекса на
+    # деловата активност (Cabinet Office, таблица 0003446462), сезонно изгладени, от 1975 ──
+    "JP_CONS_CONF": {
+        "source": "estat",
+        "id": "0003446462?tab=200&cat01=1060",
+        "region": "JP",
+        "name_bg": "Доверие на потребителите (индекс, SA)",
+        "name_en": "Consumer Confidence Index (SA)",
+        "lens": ["growth"],
+        "peer_group": "sentiment",
+        "tags": [],
+        "transform": "level",
+        "is_rate": False,
+        "historical_start": "1975-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "end_month",
+        "revision_prone": False,
+        "narrative_hint": "Анкетата на Cabinet Office (消費者態度指数). Над 50 е оптимизъм; японското ниво е структурно ниско, затова се чете спрямо собствената норма.",
+    },
+    "JP_HOUSING_STARTS_AREA": {
+        "source": "estat",
+        "id": "0003446462?tab=200&cat01=1050",
+        "region": "JP",
+        "name_bg": "Започнато жилищно строителство, площ (г/г)",
+        "name_en": "New Housing Starts, Floor Area (SA)",
+        "lens": ["property"],
+        "peer_group": "activity",
+        "tags": [],
+        "transform": "yoy_pct",
+        "is_rate": False,
+        "historical_start": "1975-01-01",
+        "release_schedule": "monthly",
+        "typical_release": "end_month",
+        "revision_prone": False,
+        "narrative_hint": "MLIT през индекса на деловата активност. Броят жилища в e-Stat свършва на 12.2024, затова площта е заместителят. Ръстът е по-силен пазар.",
+    },
 }
 
 
