@@ -58,7 +58,11 @@
   MAD, `MIN_OBS=36`).
 - `scorer.py` — health_z (OPT плато → U → линейно) → peer-групи (невзвешено
   средно) → лещи (претеглени) → композит (ренормализация: `None` изпада).
-  Пазачите: `scale_fallback`, `degenerate`, `thin_window`.
+  Пазачите: `scale_fallback`, `degenerate`, `thin_window`. От ПРОЛЕТР4 (26.11.2026):
+  `SERIES_Z_CAP = 6` реже z на серия преди сбора в лещата, а застоялите серии
+  (`stale`) се показват, но не влизат в сбора.
+- `staleness.py` — правилото за застояване (над 3 периода зад най-свежата серия
+  от същата каденция), общо за `scorer.py` и `export/series_data.py`.
 - `display.py` — ФОРМА-КАНОН примитивите: `fmt_value`, `months_old`,
   `is_stale`, `thin_window_note`, `verdict_sentence`, `epoch_label`,
   линковете per източник (`source_url` диспечира), `inflation_anchor`

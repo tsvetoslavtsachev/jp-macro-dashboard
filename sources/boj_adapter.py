@@ -19,10 +19,14 @@ BP 4) — затова се извежда от header-а (първата 6-ци
 Tankan историята е menu-item (BOJ портал CGI).
 
 source_id конвенция: "<файл>:<ред-код>", файл ∈ {bp, cgpi}.
+ПРОЛЕТР4 (26.11.2026): и "api:<DB>:<код>" за официалния API на BoJ
+(https://www.stat-search.boj.or.jp/api/v1/getDataCode, без ключ, живо проверен 26.11.2026).
+Там е и историята на Tankan (DB=CO), която флет-файловете нямат.
 """
 from __future__ import annotations
 
 import csv
+from typing import Any
 import io
 import zipfile
 
@@ -37,6 +41,37 @@ BOJ_FILES = {
 }
 
 _MISSING = {"", "NA", "ND", "-"}
+
+
+BOJ_API = "https://www.stat-search.boj.or.jp/api/v1/getDataCode"
+
+
+def _boj_period_to_ts(period: Any, frequency: str) -> pd.Timestamp:
+    """YYYYMM от API-то: при тримесечна серия MM е номерът на тримесечието (202603 = 3 тр.),
+    датата е началото на тримесечието (както FRED); при месечна е началото на месеца."""
+    p = str(period)
+    y, m = int(p[:4]), int(p[4:6])
+    if frequency.upper().startswith("QUARTER"):
+        return pd.Timestamp(year=y, month=3 * (m - 1) + 1, day=1)
+    return pd.Timestamp(year=y, month=m, day=1)
+
+
+def parse_boj_api(payload: dict) -> pd.Series:
+    rs = payload.get("RESULTSET") or []
+    if not rs:
+        raise ValueError(f"BOJ API: празен RESULTSET ({payload.get('MESSAGEID')} {payload.get('MESSAGE')})")
+    r = rs[0]
+    vals = r.get("VALUES") or {}
+    dates, values = vals.get("SURVEY_DATES") or [], vals.get("VALUES") or []
+    freq = r.get("FREQUENCY") or ""
+    out = {}
+    for d, v in zip(dates, values):
+        if v is None or v == "":
+            continue
+        out[_boj_period_to_ts(d, freq)] = float(v)
+    s = pd.Series(out, dtype=float).sort_index()
+    s.name = r.get("SERIES_CODE")
+    return s
 
 
 def parse_boj_wide(text: str, row_code: str) -> pd.Series:
@@ -104,6 +139,12 @@ class BojAdapter(BaseAdapter):
 
     def _fetch_remote(self, series_key: str, source_id: str) -> pd.Series:
         file_key, _, row_code = source_id.partition(":")
+        if file_key == "api":
+            db, _, code = row_code.partition(":")
+            resp = requests.get(BOJ_API, params={"format": "json", "lang": "en", "db": db, "code": code},
+                                timeout=60)
+            resp.raise_for_status()
+            return parse_boj_api(resp.json())
         if file_key not in BOJ_FILES:
             raise ValueError(
                 f"BojAdapter: непознат файл {file_key!r} (има {list(BOJ_FILES)})"

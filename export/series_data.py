@@ -33,14 +33,10 @@ from core.scorer import score_series
 
 YEARS_INCLUDED = 10
 
-PERIOD_LENGTH_DAYS = {
-    "daily": 5,   # работна седмица: FRED дневните серии изостават с дни, не са stale
-    "weekly": 7,
-    "monthly": 30,
-    "quarterly": 90,
-    "annually": 365,
-}
-RELATIVE_STALE_PERIODS = 3
+# ПРОЛЕТР4 (26.11.2026): правилото живее в core/staleness.py, общо с оценката на лещите.
+from core.staleness import (  # noqa: E402,F401
+    PERIOD_LENGTH_DAYS, RELATIVE_STALE_PERIODS, relative_staleness, sched_reference,
+)
 
 RATE_TRANSFORMS = ("yoy_pct", "mom_pct", "qoq_pct")
 
@@ -87,20 +83,6 @@ def _clean(val: Any) -> Any:
     return val
 
 
-def relative_staleness(last_date, schedule: str, sched_ref: dict) -> tuple[bool, int]:
-    """Огледало на us _relative_staleness: stale ако е >3 периода зад най-свежата
-    серия от СЪЩАТА каденция; periods_behind = закръглени периоди зад нея."""
-    ref = sched_ref.get(schedule)
-    if last_date is None or ref is None:
-        return False, 0
-    try:
-        gap_days = (pd.Timestamp(ref) - pd.Timestamp(last_date)).days
-    except Exception:
-        return False, 0
-    period = PERIOD_LENGTH_DAYS.get(schedule, 30)
-    return gap_days > RELATIVE_STALE_PERIODS * period, max(0, int(round(gap_days / period)))
-
-
 def _yoy_change(s: pd.Series, kind: str) -> float | None:
     """Промяна спрямо стойността ~1 година назад (по дата), в единиците на kind."""
     s = s.dropna()
@@ -119,17 +101,7 @@ def _yoy_change(s: pd.Series, kind: str) -> float | None:
 
 
 def _sched_reference(snapshot: dict, catalog: dict) -> dict:
-    ref: dict[str, pd.Timestamp] = {}
-    for k, s in snapshot.items():
-        if s is None:
-            continue
-        s = s.dropna()
-        if s.empty or not isinstance(s.index, pd.DatetimeIndex):
-            continue
-        sc = catalog.get(k, {}).get("release_schedule", "monthly")
-        if sc not in ref or s.index[-1] > ref[sc]:
-            ref[sc] = s.index[-1]
-    return ref
+    return sched_reference(snapshot, catalog)
 
 
 def build_series_data(
