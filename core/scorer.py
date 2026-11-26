@@ -51,6 +51,10 @@ from core.primitives import (
 # ── константи на фамилията (синхронни с EU core/scorer.py) ───────────────────
 TANH_SLOPE = 2.0        # score = 50·(1+tanh(z_h/SLOPE)); ±2σ ≈ 88/12
 CLIP_SIGMA = 6.0        # клип при scale_fallback (пълна история вместо 10г)
+# ПРОЛЕТР4 (26.11.2026, реш. Ц. ЯП-1): таванът на z на серия ПРЕДИ сбора в лещата, както в Китай.
+# Ниво срещу 10-г. прозорец около нулата (JP_10Y, 2,755% срещу години около 0) дава z около 12
+# и удавя групата си и цялата леща; таванът пази знака и „крайно“, но не и тежестта.
+SERIES_Z_CAP = 6.0
 # Трансформации, чийто ИЗХОД е процент (дисплей „12.34 %"). `yoy_roll4` е
 # плъзгаща средна НА процент — също процент (мандат №47 §А2).
 PCT_TRANSFORMS = {"yoy_pct", "mom_pct", "qoq_pct", "yoy_roll4"}
@@ -297,6 +301,8 @@ def compute_lens_reports(catalog: dict, snapshot: dict[str, pd.Series]) -> dict[
     Леща без нито една скорирана серия → health_z=None, score=None (ИЗПАДА от
     композита; НЕ се брои като „неутрално 50").
     """
+    from core.staleness import relative_staleness, sched_reference
+    sched_ref = sched_reference(snapshot, catalog)
     scored: dict[tuple[str, str], dict] = {}
     by_lens_pg: dict[str, dict[str, list[str]]] = {
         lens: defaultdict(list) for lens in MODULE_WEIGHTS
@@ -310,12 +316,20 @@ def compute_lens_reports(catalog: dict, snapshot: dict[str, pd.Series]) -> dict[
             lens_members[lens].append(key)
             pg = spec.get("peer_group") or key
             by_lens_pg[lens][pg].append(key)
-            scored[(lens, key)] = score_series(
+            res = score_series(
                 snapshot.get(key),
                 spec.get("transform", "level"),
                 polarity_for(key, lens),
                 name=key,
             )
+            # ПРОЛЕТР4 (ЯП-1): застоялата серия се показва, но не влиза в сбора (както US/EU/CN).
+            raw = snapshot.get(key)
+            last = raw.dropna().index[-1] if raw is not None and not raw.dropna().empty else None
+            stale, _ = relative_staleness(last, spec.get("release_schedule", "monthly"), sched_ref)
+            res["stale"] = bool(stale)
+            hz = res.get("health_z")
+            res["capped"] = bool(hz is not None and not math.isnan(hz) and abs(hz) > SERIES_Z_CAP)
+            scored[(lens, key)] = res
 
     reports: dict[str, dict] = {}
     for lens in MODULE_WEIGHTS:
@@ -324,10 +338,11 @@ def compute_lens_reports(catalog: dict, snapshot: dict[str, pd.Series]) -> dict[
 
         for pg_name in sorted(by_lens_pg[lens]):
             zs = [
-                scored[(lens, k)]["health_z"]
+                max(-SERIES_Z_CAP, min(SERIES_Z_CAP, scored[(lens, k)]["health_z"]))
                 for k in by_lens_pg[lens][pg_name]
                 if scored[(lens, k)]["health_z"] is not None
                 and not math.isnan(scored[(lens, k)]["health_z"])
+                and not scored[(lens, k)].get("stale")
             ]
             if not zs:
                 pg_out.append({"name": pg_name, "health_z": None, "n_available": 0, "weight": 1.0})
